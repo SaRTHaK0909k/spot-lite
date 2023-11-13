@@ -16,6 +16,7 @@
 
 <script setup>
 import html2canvas from 'html2canvas';
+import axios from 'axios';
 import { ref } from 'vue'; // Import ref only once
 
 import { getStorage, ref as storageRef, uploadBytes } from 'firebase/storage';
@@ -47,14 +48,30 @@ const captureScreenshot = async () => {
 
     const blob = dataURLtoBlob(imageDataURL);
     const storage = getStorage(); 
-    const storageReference = storageRef(storage, `screenshots/${Date.now()}.png`);
+    const fileName = `Screenshots/${Date.now()}.png`
+    const storageReference = storageRef(storage, fileName);
 
     await uploadBytes(storageReference, blob);
     console.log('Screenshot uploaded successfully');
+    
+    // SAMARTH'S ADDITION START
+    
+    const response = await axios.post('http://localhost:8000/process_data', { data: fileName });
+
+    // Log the response from the FastAPI backend
+    console.log('Response from FastAPI:', response.data);
+
+    const celebIdsArray = response.data.celebIds; // Access the array using the key "celebIds"
+
+    celebIdsArray.forEach((id) => {
+      console.log(id);
+    });
+
+    // SAMARTH'S ADDITION END
 
     // Set the src for the captured image
     screenshotSrc.value = imageDataURL;
-
+    
     // Append the screenshot URL to Firebase Firestore
     const screenshotsCollection = collection(db, 'screenshots');
     await addDoc(screenshotsCollection, {
@@ -62,11 +79,14 @@ const captureScreenshot = async () => {
       createdAt: new Date(),
     });
     console.log('Screenshot URL added to Firestore');
+    
   } 
   catch (error) {
     console.error('Failed to capture, upload, and append screenshot:', error);
   }
 };
+
+
 </script>
 
 <style scoped>

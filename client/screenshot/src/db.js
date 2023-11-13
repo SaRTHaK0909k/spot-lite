@@ -7,12 +7,14 @@ import { getFirestore, addDoc, collection } from 'firebase/firestore'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBvc_ZE0gYLkI-86wuReEuBGbG0kCB837M",
-  authDomain: "vue-screenshot.firebaseapp.com",
-  projectId: "vue-screenshot",
-  storageBucket: "vue-screenshot.appspot.com",
-  messagingSenderId: "480718889271",
-  appId: "1:480718889271:web:891b08d230f8395e31bab2"
+  apiKey: "AIzaSyCIcuNzJzkLK_WaLDDPmke15RJzNuw43wY",
+  authDomain: "celebrecognize.firebaseapp.com",
+  databaseURL: "https://celebrecognize-default-rtdb.firebaseio.com",
+  projectId: "celebrecognize",
+  storageBucket: "celebrecognize.appspot.com",
+  messagingSenderId: "984565137264",
+  appId: "1:984565137264:web:88a3d49e81e67ef7f699b5",
+  measurementId: "G-L8NF9LWVT4"
 };
 
 // Initialize Firebase
